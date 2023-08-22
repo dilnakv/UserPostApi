@@ -22,62 +22,7 @@ const verifyToken = (req, res, next) => {
     });
 };
 
-const isAdmin = (req, res, next) => {
-    User.findByPk(req.userId).then(user => {
-        user.getRoles().then(roles => {
-            for(let i=0; i<roles.length; i++){
-                if(roles[i].name === 'Admin'){
-                    next();
-                    return;
-                }
-            }
-            res.status(403).send({message:'Require Admin Role!'});
-            return;
-        });
-    });
+  
+module.exports = {
+  verifyToken,
 };
-
-const isModerator = (req, res, next) => {
-    User.findByPk(req.userId).then(user =>{
-        user.getRoles().then(roles =>{
-            for(let i=0; i<roles.length; i++){
-                if(roles[i].name === 'Moderator'){
-                    next();
-                    return;
-                }
-            }
-            res.status(403).send({message: 'Require Moderator Role!'});
-            return;
-        });
-    });
-};
-
-const isModeratorOrAdmin = (req, res, next) => {
-    User.findByPk(req.userId).then(user => {
-      user.getRoles().then(roles => {
-        for (let i = 0; i < roles.length; i++) {
-          if (roles[i].name === "Moderator") {
-            next();
-            return;
-          }
-  
-          if (roles[i].name === "Admin") {
-            next();
-            return;
-          }
-        }
-  
-        res.status(403).send({
-          message: "Require Moderator or Admin Role!"
-        });
-      });
-    });
-  };
-  
-  
-  module.exports = {
-    verifyToken,
-    isAdmin,
-    isModerator,
-    isModeratorOrAdmin
-  };

@@ -1,5 +1,6 @@
 const express = require('express');
 const { verifyToken } = require('../middlewares/authJWT');
+const { postValidationRules, validate } = require('../validator/postValidator')
 const { createPost, getAllPosts, getAllPostsUser, deletePostById, deleteMyPosts, getPostById } = require('../controllers/postController');
 const postRouter = express.Router();
 
@@ -12,7 +13,7 @@ postRouter.use(function(req, res, next) {
 });
 
 // Create posts
-postRouter.post('/', verifyToken, createPost);
+postRouter.post('/', postValidationRules(), validate, verifyToken, createPost);
 
 //Get my posts
 postRouter.get('/my-posts', verifyToken, getAllPosts);

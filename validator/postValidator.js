@@ -1,10 +1,10 @@
 const { body, validationResult } = require('express-validator')
 
-const userValidationRules = () => {
+const postValidationRules = () => {
   
   return [
-    body('email').isEmail().withMessage('Not a valid email'),
-    body('password').isLength({ min: 5 }).withMessage('Password length should be minimum of 5'),
+   body("title").notEmpty().withMessage('Title is required'),
+   body("content").notEmpty().withMessage('Content is required'),
   ]
 }
 
@@ -14,8 +14,10 @@ const validate = (req, res, next) => {
   if (errors.isEmpty()) {
     return next()
   }
+  
   const extractedErrors = []
-  errors.array().map(err => extractedErrors.push({ [err.path]: err.msg }))
+  errors.array().map(err => {
+    extractedErrors.push({ [err.path]: err.msg })})
 
   return res.status(422).json({
     errors: extractedErrors,
@@ -23,7 +25,7 @@ const validate = (req, res, next) => {
 }
 
 module.exports = {
-  userValidationRules,
+  postValidationRules,
   validate,
 }
 

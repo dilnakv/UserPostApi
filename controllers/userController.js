@@ -6,6 +6,8 @@ const Role = db.Role;
 module.exports ={
     getUserDetails
 }
+
+//Get user details
 async function getUserDetails(req, res) {
   User.findByPk(req.userId, {
     attributes: { exclude: ['password'] } 

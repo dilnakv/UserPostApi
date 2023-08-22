@@ -12,6 +12,7 @@ module.exports= {
     getPostById
 }
 
+//Create post
 async function createPost(req, res){
     console.log(req.body.content)
     const {title,content}=req.body;
@@ -30,6 +31,7 @@ async function createPost(req, res){
     });
 }
 
+//Get all post of logged in user
 async function getAllPosts(req, res) {
     await Post.findAll({
       where: {
@@ -45,6 +47,7 @@ async function getAllPosts(req, res) {
     });
 }
 
+//Get all posts
 async function getAllPostsUser(req, res) {
     await Post.findAll({
         include: [{
@@ -62,6 +65,8 @@ async function getAllPostsUser(req, res) {
     });
 }
 
+
+//Delete single post
 async function deletePostById(req, res) {
     await Post.findByPk(req.params.postId).then(post => {
         if(!post){
@@ -78,6 +83,7 @@ async function deletePostById(req, res) {
     })
 }
 
+//Delete all posts of logged in user
 async function deleteMyPosts(req, res) {
     await Post.findAll({
         where: {
@@ -101,6 +107,7 @@ async function deleteMyPosts(req, res) {
     });
 }
 
+//Get a single post
 async function getPostById(req, res) {
     await Post.findByPk(req.params.postId).then(post => {
         if(!post){
